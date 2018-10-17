@@ -32,7 +32,7 @@ def make_url(repo_url, path)
   uri
 end
 
-def print_repo_stats(repo_url)
+def dump_filenames(repo_url)
   repo_url += '/' unless repo_url =~ /\/$/
 
   tmpdir = Dir.mktmpdir
@@ -44,7 +44,6 @@ def print_repo_stats(repo_url)
     file.write(response.body)
   end
 
-  stats = Hash.new { |hash, key| hash[key] = { rpm_count: 0, drpm_count: 0, total_size: 0 } }
   metadata_files = Hash.new { |hash, key| hash[key] = [] }
 
   RepomdParser::RepomdXmlParser.new(repomd_file).parse.each do |xml_file|
@@ -61,8 +60,7 @@ def print_repo_stats(repo_url)
 
     rpms = RepomdParser::PrimaryXmlParser.new(filename).parse
     rpms.each do |package|
-      stats[package.arch][:rpm_count] += 1
-      stats[package.arch][:total_size] += package.size
+      puts package.location
     end
   end
 
@@ -76,19 +74,9 @@ def print_repo_stats(repo_url)
 
     rpms = RepomdParser::DeltainfoXmlParser.new(filename).parse
     rpms.each do |package|
-      stats[package.arch][:drpm_count] += 1
-      stats[package.arch][:total_size] += package.size
+      puts package.location
     end
   end
-
-  pretty_url = URI.parse(repo_url)
-  pretty_url.query = nil
-
-  puts "Statistics for #{pretty_url}"
-  puts ''
-  stats.each { |arch, data| printf "%08s: %06s RPM packages, %06s deltainfo packages, %6.02f gigabytes\n", arch, data[:rpm_count], data[:drpm_count], data[:total_size].to_f / 1024 ** 3 }
-  puts ''
-  printf("Total size: %6.02f gigabytes\n", stats.inject(0) { |sum, (_, item)| sum + item[:total_size] }.to_f / 1024 ** 3)
 ensure
   FileUtils.rm_r(tmpdir)
 end
@@ -99,4 +87,4 @@ if (!ARGV[0] || ARGV[0] == '-h' || ARGV[0] == '--help')
   exit 1
 end
 
-print_repo_stats(ARGV[0])
+dump_filenames(ARGV[0])

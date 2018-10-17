@@ -34,11 +34,20 @@ Authentication token can be supplied as query string, e.g.: https://repo.url/?au
 ```
 
 ```
-Statistics for https://download.opensuse.org/update/leap/42.3/oss/
+Statistics for http://download.opensuse.org/update/leap/15.0/oss/
 
-     src:   1678 packages,  42.24 gigabytes
-  x86_64:   7774 packages,  17.24 gigabytes
-  noarch:   2243 packages,   7.11 gigabytes
+     src:    636 RPM packages,      0 deltainfo packages,  12.49 gigabytes
+  x86_64:   2807 RPM packages,   1072 deltainfo packages,   7.85 gigabytes
+  noarch:    805 RPM packages,    468 deltainfo packages,   3.38 gigabytes
 
-Total size:  66.60 gigabytes
+Total size:  23.73 gigabytes
+```
+
+#### dump_filenames
+
+`dump_filenames.rb` prints filenames of all packages in the repo. Handy for comparing repo contents.
+
+```
+Usage: dump_filenames.rb REPO_URL
+Authentication token can be supplied as query string, e.g.: https://repo.url/?auth_token
 ```
