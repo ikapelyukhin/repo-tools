@@ -51,3 +51,12 @@ Total size:  23.73 gigabytes
 Usage: dump_filenames.rb REPO_URL
 Authentication token can be supplied as query string, e.g.: https://repo.url/?auth_token
 ```
+
+#### orphaned_stats
+
+`orphaned_stats.rb` calculates disk usage by orphaned files in the repos (old versions of the packages that aren't referenced by the metadata).
+
+```
+Usage: orphaned_stats.rb MIRROR_DIR
+```
+
