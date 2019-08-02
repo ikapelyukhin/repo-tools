@@ -2,7 +2,7 @@
 
 require 'repomd_parser'
 
-class OrphanedFilesCounter
+class OutdatedPackagesCounter
   def initialize(mirror_dir)
     @mirror_dir = mirror_dir
     @packages = {}
@@ -56,8 +56,8 @@ class OrphanedFilesCounter
       orphaned_size += get_size(file)
     end
 
-    puts format('Size of referenced files (MB): % 6d', referenced_size / 1024 / 1024)
-    puts format('Size of   orphaned files (MB): % 6d', orphaned_size / 1024 / 1024)
+    puts format('Size of up-to-date files (MB): % 6d', referenced_size / 1024 / 1024)
+    puts format('Size of   outdated files (MB): % 6d', orphaned_size / 1024 / 1024)
   end
 
   protected
@@ -72,4 +72,4 @@ class OrphanedFilesCounter
 end
 
 mirror_dir = ARGV[0] || '/srv/www/htdocs/'
-OrphanedFilesCounter.new(mirror_dir).start
+OutdatedPackagesCounter.new(mirror_dir).start

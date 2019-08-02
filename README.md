@@ -2,9 +2,17 @@
 
 ## Installation
 
+### From RPM package
+
+1. Get the package from [home:ikapelyukhin/repo-tools](https://build.opensuse.org/package/show/home:ikapelyukhin/repo-tools)
+2. Install it
+3. Run the scripts! (They are installed into `/usr/share/repo-tools`)
+
+### From source
+
 1. `git clone`
 2. `bundle install`
-3. Run scripts!
+3. Run the scripts!
 
 #### verify_repo
 
@@ -52,11 +60,11 @@ Usage: dump_filenames.rb REPO_URL
 Authentication token can be supplied as query string, e.g.: https://repo.url/?auth_token
 ```
 
-#### orphaned_stats
+#### outdated_packages
 
-`orphaned_stats.rb` calculates disk usage by orphaned files in the repos (old versions of the packages that aren't referenced by the metadata).
+`outdated_packages.rb` calculates disk usage by outdated packages in the mirrored repos (old versions of the packages that are retained on disk after newer versions are downloaded and aren't referenced by the metadata).
 
 ```
-Usage: orphaned_stats.rb MIRROR_DIR
+Usage: outdated_packages.rb MIRROR_DIR
 ```
 
