@@ -5,7 +5,7 @@ require 'typhoeus'
 require 'uri'
 require 'tmpdir'
 require 'fileutils'
-require 'progress_bar'
+require 'progressbar'
 require 'repomd_parser'
 
 class RepoVerifier
@@ -48,9 +48,9 @@ class RepoVerifier
 
   def verify_files(metadata_files, klass)
     hydra = Typhoeus::Hydra.new
-    pb = ProgressBar.new
-    pb.max = 0
+    pb = ProgressBar.create
 
+    total = 0
     metadata_files.each do |xml_file|
       filename = File.basename(xml_file.location)
 
@@ -71,16 +71,18 @@ class RepoVerifier
               @broken_files << "#{package.location}, actual size: #{actual_size}, metadata size: #{package.size}"
             end
 
-            pb.increment!
+            pb.increment
           else
             raise "Something went wrong: #{uri.to_s}"
           end
         end
 
         hydra.queue(request)
-        pb.max = pb.max + 1
+        total += 1
       end
     end
+
+    pb.total = total
 
     hydra.run
     puts ''
