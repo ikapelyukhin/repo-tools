@@ -56,6 +56,11 @@ class OutdatedPackagesCleaner
 
     @packages.keys.each do |file|
       next if File.directory?(file)
+
+      # skipping files that are younger than 2 days, zypper service has a TTL of 1 day during which it uses cached metadata
+      file_age = Time.now() - File.mtime(file)
+      next if file_age < 48*60*60
+
       outdated_size += get_size(file)
       outdated_files += 1
       File.delete(file)
