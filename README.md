@@ -1,8 +1,10 @@
-# Repo tools
+# RPM repo tools
+
+This is a collection of various RPM repository scripts and utilities. All are written in Ruby and use [repomd_parser](https://github.com/ikapelyukhin/repomd-parser) gem.
 
 ## Installation
 
-### From RPM package
+### From openSUSE/SLES RPM package
 
 1. Get the package from [home:ikapelyukhin/repo-tools](https://build.opensuse.org/package/show/home:ikapelyukhin/repo-tools)
 2. Install it
@@ -62,9 +64,25 @@ Authentication token can be supplied as query string, e.g.: https://repo.url/?au
 
 #### outdated_packages
 
-`outdated_packages.rb` calculates disk usage by outdated packages in the mirrored repos (old versions of the packages that are retained on disk after newer versions are downloaded and aren't referenced by the metadata).
+`outdated_packages.rb` calculates disk usage by outdated packages in repositories in `MIRROR_DIR` (old versions of the packages that are retained on disk after newer versions are downloaded and aren't referenced by primary.xml).
 
 ```
 Usage: outdated_packages.rb MIRROR_DIR
 ```
 
+```
+Size of up-to-date files (MB):  1199204
+Size of   outdated files (MB):  744710
+```
+
+#### clean_outdated
+
+`clean_outdated.rb` removes outdated (not referenced by primary.xml) files in repositories in `MIRROR_DIR`.
+
+```
+Usage: clean_outdated.rb MIRROR_DIR
+```
+
+```
+Number of outdated files removed:  379487, disk space freed (MB):  744710
+```
